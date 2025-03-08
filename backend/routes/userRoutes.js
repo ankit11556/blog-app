@@ -5,10 +5,11 @@ const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 require('dotenv').config()
 const authMiddleware = require("../middlewares/authMiddleware.js")
+const roleMiddleware = require("../middlewares/rolemiddleware.js")
 
 userRoutes.post("/signup",async (req,res) => {
   try {
-    const {name,email,password} = req.body;
+    const {name,email,password,role} = req.body;
     const existUser = await User.findOne({email});
     if (existUser) {
       return res.status(404).json({message: "user already existing"})
@@ -18,12 +19,12 @@ userRoutes.post("/signup",async (req,res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password,salt)
 
-    const newUser = new User({name,email,password:hashedPassword});
+    const newUser = new User({name,email,password:hashedPassword,role: role || "user"});
     await newUser.save();
 
     //jwt token generate
     const token = jwt.sign(
-      {id: newUser._id, role: newUser.rol},
+      {id: newUser._id, role: newUser.role},
       process.jwt.JWT_SECRET,
       {expiresIn: "7d"}
     )
@@ -60,7 +61,7 @@ userRoutes.post("/login",async (req,res) => {
       {expiresIn: "7d"}
     );
 
-    //token store in httonly cookie
+    //token store in httponly cookie
     res.cookie("token",token,{
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -75,6 +76,19 @@ userRoutes.post("/login",async (req,res) => {
 
 userRoutes.get("/profile",authMiddleware,(req,res)=>{
   res.json({message: "User profile accessed", user: req.user})
+});
+
+//role middleware
+userRoutes.get("/admin",authMiddleware,roleMiddleware(["admin"]),(req,res)=>{
+  res.json({message: "Welcome Admin! You have access to this route. "})
 })
+
+//logout
+userRoutes.post("/logout",(req,res)=>{
+  res.clearCookie("token");
+  res.status(200).json({message: "Lougout successful"})
+});
+
+
 
 module.exports = userRoutes
