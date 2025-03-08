@@ -33,7 +33,7 @@ userRoutes.post("/signup",async (req,res) => {
       secure: process.env.NODE_ENV === "prodution",
       maxAge: 7*24*60*60*1000
     })
-    res.status(200).json({message:"user registered successfully",user:newUser,token me bhi })
+    res.status(200).json({message:"user registered successfully",user:newUser,token:token })
   } catch (error) {
     res.status(500).json({message:"something went wrong",error: error.message})
   }
