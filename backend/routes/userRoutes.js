@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 require('dotenv').config()
 const authMiddleware = require("../middlewares/authMiddleware.js")
 const roleMiddleware = require("../middlewares/rolemiddleware.js")
+const {forgotPassword,verifyOTP,resetPassword} = require("../controller/authController.js")
 
 userRoutes.post("/signup",async (req,res) => {
   try {
@@ -89,6 +90,9 @@ userRoutes.post("/logout",(req,res)=>{
   res.status(200).json({message: "Lougout successful"})
 });
 
+userRoutes.post("/forgot-password",forgotPassword);
+userRoutes.post("/verify-otp",verifyOTP)
+userRoutes.post("/reset-password",resetPassword)
 
 
 module.exports = userRoutes
