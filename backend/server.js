@@ -4,12 +4,14 @@ const cors = require('cors')
 require('dotenv').config();
 require('./config/db')
 const userRoutes = require('./routes/userRoutes');
+const blogRoutes = require('./routes/blogRoutes')
 const cookieParser = require("cookie-parser")
 
 app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use(userRoutes)
+app.use(blogRoutes)
 app.get("/",(req,res,next)=>{
 res.send('server is runnig')
 })
