@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar"
-import { Button } from "@mantine/core"
+import Hero from "./components/Hero"
 
 function App() {
   
@@ -7,6 +7,7 @@ function App() {
   return (
     <>
      <Navbar></Navbar>
+     <Hero></Hero>
     </>
   )
 }
