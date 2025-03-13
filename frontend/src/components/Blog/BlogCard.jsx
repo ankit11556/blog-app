@@ -1,10 +1,21 @@
-const BlogCard = ({ title, content, author }) => {
+import { Card, Text, Button } from "@mantine/core";
+import { Link } from "react-router-dom";
+
+const BlogCard = ({ id, title, content="", author }) => {
+
   return (
-    <div className="border p-4 rounded-lg shadow-md w-full md:w-[300px]">
-      <h3 className="text-xl font-bold">{title}</h3>
-      <p className="text-gray-600 mt-2">{content}</p>
-      <p className="text-sm text-gray-500 mt-2">By {author}</p>
-    </div>
+    <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Text fw={700} size="lg">{title}</Text>
+      <Text size="sm" mt="sm" color="dimmed">
+        {content.length > 100 ? content.slice(0, 100) + "..." : content}
+      </Text>
+      <Text size="xs" mt="xs" color="gray">By {author}</Text>
+
+      {/* Read More Button */}
+      <Button component={Link} to={`/blog/${id}`} fullWidth mt="md" color="blue">
+        Read More
+      </Button>
+    </Card>
   );
 };
 
