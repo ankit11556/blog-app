@@ -1,16 +1,14 @@
 
 import { useEffect, useState } from "react";
 import BlogCard from "../components/Blog/BlogCard";
-
+import axios from "axios"
 const Home = () => {
   const [blogs,setBlogs] = useState([]);
 
 const dataFetch = async () => {
   try {
-    const data = await fetch("http://localhost:5500/blogs")
-    const blog = await data.json()
-    setBlogs(blog)
-    
+    const {data} = await axios.get("http://localhost:5500/blogs") 
+    setBlogs(data)
   } catch (error) {
     console.log(error);
   }
