@@ -12,9 +12,6 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(userRoutes)
 app.use(blogRoutes)
-app.get("/",(req,res,next)=>{
-res.send('server is runnig')
-})
 
 const PORT = process.env.PORT;
 app.listen(PORT,()=>{
