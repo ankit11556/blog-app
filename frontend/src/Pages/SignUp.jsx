@@ -7,6 +7,7 @@ export default function SignUp() {
     password: "",
   });
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -14,17 +15,15 @@ export default function SignUp() {
   const handleSignUp = async (e) => { 
     e.preventDefault();
    try {
-    const resopnse = await axios.post("http://localhost:5500/signup",formData);
- console.log("response data",data);
- 
-
-    if(data.success){
-      alert("SingnUp successfully")
+    const response = await axios.post("http://localhost:5500/signup",formData)
+    
+    if(response.status == 200){
+      alert(response.data.message)
     }
    } catch (error) {
-    if(error.resopnse && error.resopnse.data.message){
-      alert(error.resonse.data.message)
-    }
+    
+      alert(error.response?.data?.error)
+    
    }
   };
 

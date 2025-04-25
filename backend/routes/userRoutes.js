@@ -13,7 +13,7 @@ userRoutes.post("/signup",async (req,res) => {
     const {name,email,password,role} = req.body;
     const existUser = await User.findOne({email});
     if (existUser) {
-      return res.status(404).json({message: "user already existing"})
+      return res.status(404).json({error: "user already existing"})
     }
   
     //password hashing
@@ -26,7 +26,7 @@ userRoutes.post("/signup",async (req,res) => {
     //jwt token generate
     const token = jwt.sign(
       {id: newUser._id, role: newUser.role},
-      process.jwt.JWT_SECRET,
+      process.env.JWT_SECRET,
       {expiresIn: "7d"}
     )
     
