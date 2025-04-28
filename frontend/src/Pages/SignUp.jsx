@@ -21,9 +21,7 @@ export default function SignUp() {
       alert(response.data.message)
     }
    } catch (error) {
-    
       alert(error.response?.data?.error)
-    
    }
   };
 
