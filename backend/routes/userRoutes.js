@@ -45,7 +45,8 @@ userRoutes.post("/login",async (req,res) => {
   try {
     const {email,password} = req.body;
     
-    const existUser = await User.findOne({email}).select("+password");
+    const existUser = await User.findOne({email});
+    
     if (!existUser) {
       return res.status(404).json({message: "invalid email or password"});
     };

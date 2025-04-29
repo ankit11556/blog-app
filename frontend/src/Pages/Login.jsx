@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import axios from "axios";
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -10,9 +10,16 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
+    try {
+      const response = await axios.post("http://localhost:5500/login",formData)
+      if (response.status == 200) {
+        alert(response.data.message)
+      }
+    } catch (error) {
+      alert(error.response?.data?.error)
+    }
   };
 
   return (
